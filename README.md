@@ -1,32 +1,83 @@
-# CodeIgniter 4 Application Starter
+# Task Management System
+
+A simple task management application built with CodeIgniter 4 and PHP 8+. This application allows users to register, login, and manage their tasks efficiently.
+
+## Features
+
+- **User Authentication**
+  - User registration with name, email, and password
+  - Secure login/logout functionality
+  - Protected routes for authenticated users
+
+- **Dashboard**
+  - Overview of task statistics (pending, in-progress, completed)
+  - Quick view of recent tasks
+  - Quick access to create new tasks
+
+- **Task Management**
+  - Create new tasks with title, description, priority, status, and due date
+  - View tasks with filtering by status (all, pending, in-progress, completed)
+  - Edit existing tasks
+  - Delete tasks
+  - Task prioritization (low, medium, high)
 
 ## What is CodeIgniter?
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+This application is built on CodeIgniter 4, which is a PHP full-stack web framework that is light, fast, flexible and secure.
+More information about CodeIgniter can be found at the [official site](https://codeigniter.com).
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Installation & Setup
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+1. **Clone the repository**
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+   ```bash
+   git clone https://github.com/sculptorofcode/udeck-codeigniter.git
+   cd udeck-codeigniter
+   ```
 
-## Installation & updates
+2. **Install dependencies**
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+   ```bash
+   composer install
+   ```
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+3. **Configure environment**
 
-## Setup
+   Copy the `env` file to `.env` and update the database settings:
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+   ```bash
+   cp env .env
+   ```
+
+   Update the following settings in the `.env` file:
+
+   ```
+   CI_ENVIRONMENT = development
+   app.baseURL = 'http://localhost:8080/'
+   
+   database.default.hostname = localhost
+   database.default.database = task_management
+   database.default.username = root
+   database.default.password = your_password
+   ```
+
+4. **Create the database**
+
+   Create a MySQL database named `task_management`.
+
+5. **Run migrations**
+
+   ```bash
+   php spark migrate
+   ```
+
+6. **Start the development server**
+
+   ```bash
+   php spark serve
+   ```
+
+   The application will be available at `http://localhost:8080`
 
 ## Important Change with index.php
 
@@ -39,30 +90,67 @@ framework are exposed.
 
 **Please** read the user guide for a better explanation of how CI4 works!
 
-## Repository Management
+## Security
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+- Passwords are securely hashed using PHP's `password_hash()`
+- Form validation is implemented for all input
+- CSRF protection is enabled
+- Authentication checks for all protected routes
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+## Credits
+
+- Built with [CodeIgniter 4](https://codeigniter.com/)
+- Styled with [Bootstrap 5](https://getbootstrap.com/)
+- Icons by [Font Awesome](https://fontawesome.com/)
+
+## Project Structure
+
+- **Models**
+  - `UserModel.php`: Handles user authentication and data
+  - `TaskModel.php`: Manages task CRUD operations
+
+- **Controllers**
+  - `Auth.php`: Handles user registration, login, and logout
+  - `AuthController.php`: Base controller for authenticated routes
+  - `Tasks.php`: Manages task listing, creation, editing, and deletion
+  - `Dashboard.php`: Displays task statistics and recent tasks
+  - `Home.php`: Routes to appropriate pages based on authentication status
+
+- **Views**
+  - `layouts/main.php`: Main layout template
+  - `auth/login.php`: Login form
+  - `auth/register.php`: Registration form
+  - `dashboard.php`: Dashboard view
+  - `tasks/index.php`: Task listing
+  - `tasks/create.php`: Task creation form
+  - `tasks/edit.php`: Task editing form
+
+## Usage
+
+1. **Register a new account**
+   - Navigate to `/register`
+   - Fill in your details and create an account
+
+2. **Login**
+   - Navigate to `/login`
+   - Enter your credentials
+
+3. **Dashboard**
+   - View task statistics
+   - See your most recent tasks
+   - Quick access to task management
+
+4. **Managing Tasks**
+   - Create new tasks with the "New Task" button
+   - View all tasks or filter by status
+   - Edit tasks by clicking the edit button
+   - Delete tasks when no longer needed
 
 ## Server Requirements
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+PHP version 8.0 or higher is required, with the following extensions installed:
 
 - [intl](http://php.net/manual/en/intl.requirements.php)
 - [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+- json (enabled by default)
+- [mysqli](http://php.net/manual/en/mysqli.installation.php) for database operations
